@@ -49,6 +49,6 @@ gr.Interface(
     ],
     theme=gr.themes.Base(),
     title="Face Swapper App 🔄",
-    description="🌀 This app allows you to swap faces between images. <br>➡️ Upload a source image and a destination image, and specify the positions of the faces you'd like to swap! <br>⚡️ Try it out quickly by using the examples below. <br>💡 At [Dentro](https://dentro-innovation.com), we help you to discover, develop and implement AI within your organisation! <br>📖 The original authors of the face swap model can be found [here](https://github.com/deepinsight/insightface/blob/master/examples/in_swapper/README.md).<br>❤️ Feel free to like or duplicate this space!",
+    description="🌀 This app allows you to swap faces between images. <br>➡️ Upload a source image and a destination image, and specify the positions of the faces you'd like to swap! <br>⚡️ Try it out quickly by using the examples below. <br>💡 At [Dentro](https://dentroai.com), we help you to discover, develop and implement AI within your organisation! <br>📖 The original authors of the face swap model can be found [here](https://github.com/deepinsight/insightface/blob/master/examples/in_swapper/README.md).<br>❤️ Feel free to like or duplicate this space!",
     # thumbnail='./examples/rihatcher.jpg'
 ).launch()
