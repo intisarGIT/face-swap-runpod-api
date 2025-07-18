@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  face-swap-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/root/.insightface/models  # Cache downloaded models
+    environment:
+      - PYTHONUNBUFFERED=1
+    # Uncomment the following lines if you have NVIDIA Docker runtime
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
