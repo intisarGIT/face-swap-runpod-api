@@ -31,9 +31,9 @@ WORKDIR /app
 # Copy requirements first for better Docker layer caching
 COPY requirements-api.txt .
 
-# Install Python dependencies
+# Install Python dependencies with increased timeout and retries
 RUN pip3 install --no-cache-dir --upgrade pip setuptools wheel
-RUN pip3 install --no-cache-dir -r requirements-api.txt
+RUN pip3 install --no-cache-dir --timeout 1000 --retries 5 -r requirements-api.txt
 
 # Copy the application code
 COPY main.py .
