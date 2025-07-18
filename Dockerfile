@@ -1,5 +1,5 @@
-# Use NVIDIA CUDA base image for GPU support  
-FROM nvidia/cuda:11.8-cudnn8-runtime-ubuntu20.04
+# Use Ubuntu base image - we'll add CUDA support via Python packages
+FROM ubuntu:20.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
