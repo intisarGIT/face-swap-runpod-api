@@ -37,6 +37,7 @@ RUN pip3 install --no-cache-dir --timeout 1000 --retries 5 -r requirements-api.t
 
 # Copy the application code
 COPY main_fixed.py .
+COPY main.py .
 # The ONNX model will be downloaded on first run by the main_fixed.py script
 # This keeps the docker image smaller and ensures the latest model is used.
 
