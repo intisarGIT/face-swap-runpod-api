@@ -1,0 +1,31 @@
+# Core FastAPI dependencies
+fastapi==0.104.1
+uvicorn==0.23.2
+pydantic==2.4.2
+
+# Image processing
+opencv-python-headless==4.8.1.78
+Pillow==10.0.1
+numpy==1.24.3
+scikit-image==0.21.0
+
+# Face analysis and swapping
+insightface==0.7.3
+onnx==1.14.1
+onnxruntime-gpu==1.15.1
+
+# HTTP requests
+requests==2.31.0
+
+# File upload support
+python-multipart==0.0.6
+
+# System monitoring
+psutil==5.9.5
+
+# RunPod SDK
+runpod==1.6.2
+
+# Additional dependencies for stability
+torch==2.0.1
+torchvision==0.15.2
