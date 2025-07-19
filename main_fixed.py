@@ -106,22 +106,39 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
         try:
             logger.info(f"Loading swapper model (attempt {attempt + 1}/{max_retries})...")
             
+            # Check if model exists in current directory first
+            local_model_path = model_path
+            if not os.path.exists(local_model_path):
+                # Check in InsightFace cache directory
+                cache_model_path = os.path.expanduser(f"~/.insightface/models/{model_path}")
+                if os.path.exists(cache_model_path):
+                    local_model_path = cache_model_path
+                else:
+                    logger.info(f"Model not found locally at {model_path} or {cache_model_path}")
+            
             # First, validate the model if it exists
-            if os.path.exists(model_path):
-                if not validate_onnx_model(model_path):
+            if os.path.exists(local_model_path):
+                logger.info(f"Found model at: {local_model_path}")
+                if not validate_onnx_model(local_model_path):
                     logger.warning("Model validation failed, attempting to fix...")
-                    if not fix_corrupted_model(model_path):
+                    if not fix_corrupted_model(local_model_path):
                         raise Exception("Failed to fix corrupted model")
             
             # Load the model
-            if os.path.exists(model_path):
-                swapper_model = insightface.model_zoo.get_model(model_path, download=False, download_zip=False)
+            if os.path.exists(local_model_path):
+                # For local files, use the full path directly
+                logger.info(f"Loading model from local path: {local_model_path}")
+                swapper_model = insightface.model_zoo.get_model(local_model_path, download=False, download_zip=False)
             else:
-                logger.info("Model not found, downloading...")
-                swapper_model = insightface.model_zoo.get_model(model_path, download=True, download_zip=True)
+                # Extract model name without extension for InsightFace download
+                model_name = os.path.splitext(model_path)[0]
+                logger.info(f"Model not found locally, downloading {model_name}...")
+                swapper_model = insightface.model_zoo.get_model(model_name, download=True, download_zip=True)
+                # Update local_model_path to the downloaded location
+                local_model_path = os.path.expanduser(f"~/.insightface/models/{model_path}")
             
             # Validate the loaded model
-            if not validate_onnx_model(model_path):
+            if not validate_onnx_model(local_model_path):
                 raise Exception("Model validation failed after loading")
             
             logger.info("✅ Swapper model loaded successfully!")
@@ -132,7 +149,7 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
             
             if attempt < max_retries - 1:
                 logger.info("🔄 Retrying with model fix...")
-                fix_corrupted_model(model_path)
+                fix_corrupted_model(local_model_path if 'local_model_path' in locals() else model_path)
             else:
                 logger.error("❌ All attempts failed to load swapper model")
                 raise
