@@ -1,0 +1,94 @@
+# Optimized Dockerfile for RunPod Serverless Face Swap API
+FROM nvidia/cuda:11.8-runtime-ubuntu22.04
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV CUDA_VISIBLE_DEVICES=0
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    wget \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy requirements first for better Docker layer caching
+COPY requirements-api.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements-api.txt
+
+# Add psutil for memory monitoring
+RUN pip install --no-cache-dir psutil
+
+# Create models directory
+RUN mkdir -p /app/models
+
+# Create a Python script for model pre-loading
+RUN echo 'import os\n\
+import logging\n\
+import insightface\n\
+from insightface.app import FaceAnalysis\n\
+\n\
+logging.basicConfig(level=logging.INFO)\n\
+logger = logging.getLogger(__name__)\n\
+\n\
+try:\n\
+    logger.info("Pre-loading FaceAnalysis model...")\n\
+    app = FaceAnalysis(name="buffalo_l")\n\
+    app.prepare(ctx_id=0, det_size=(640, 640))\n\
+    logger.info("FaceAnalysis model loaded successfully")\n\
+    \n\
+    logger.info("Pre-loading face swapper model...")\n\
+    swapper = insightface.model_zoo.get_model("inswapper_128.onnx", download=True, download_zip=True)\n\
+    logger.info("Face swapper model loaded successfully")\n\
+    \n\
+    logger.info("All models pre-loaded successfully!")\n\
+except Exception as e:\n\
+    logger.error(f"Model pre-loading failed: {e}")\n\
+    raise\n\
+' > /tmp/preload_models.py && python3 /tmp/preload_models.py && rm /tmp/preload_models.py
+
+# Copy the inswapper model if it exists locally
+COPY inswapper_128.onnx* ./
+
+# Copy application code
+COPY main_optimized.py main.py
+COPY app.py .
+
+# Create a startup script for better error handling
+RUN echo '#!/bin/bash\n\
+set -e\n\
+echo "Starting Face Swap API..."\n\
+echo "Memory info:"\n\
+free -h\n\
+echo "GPU info:"\n\
+nvidia-smi || echo "No GPU detected"\n\
+echo "Starting uvicorn server..."\n\
+exec uvicorn main:app --host 0.0.0.0 --port 8000 --workers 1 --timeout-keep-alive 300\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+# Expose port
+EXPOSE 8000
+
+# Health check with longer timeout for model loading
+HEALTHCHECK --interval=30s --timeout=30s --start-period=120s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Use the startup script
+CMD ["/app/start.sh"]
