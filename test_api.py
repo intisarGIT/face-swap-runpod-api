@@ -76,6 +76,78 @@ def test_face_swap_image():
         print(f"Request failed: {e}")
     print()
 
+def test_runsync_face_swap():
+    """Test RunPod serverless /runsync endpoint."""
+    print("Testing RunPod /runsync endpoint...")
+    
+    # RunPod format payload
+    payload = {
+        "input": {
+            "source_url": "https://example.com/source-image.jpg",
+            "target_url": "https://example.com/target-image.jpg",
+            "source_index": 1,
+            "target_index": 1
+        }
+    }
+    
+    try:
+        response = requests.post(f"{API_BASE_URL}/runsync", json=payload)
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"Success: {result['output']['success']}")
+            print(f"Message: {result['output']['message']}")
+            
+            if result['output']['success'] and result['output'].get('image_base64'):
+                # Save the result image
+                image_data = base64.b64decode(result['output']['image_base64'])
+                image = Image.open(io.BytesIO(image_data))
+                image.save("result_runsync.png")
+                print("Result saved as 'result_runsync.png'")
+            else:
+                print("No image data in successful response")
+        else:
+            print(f"Error: {response.status_code}")
+            print(f"Response: {response.text}")
+            
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+    print()
+
+def test_runsync_error_handling():
+    """Test RunPod /runsync endpoint error handling."""
+    print("Testing RunPod /runsync error handling...")
+    
+    # Invalid payload (missing required fields)
+    payload = {
+        "input": {
+            "source_url": "invalid-url",
+            "target_url": "invalid-url",
+            "source_index": 1,
+            "target_index": 1
+        }
+    }
+    
+    try:
+        response = requests.post(f"{API_BASE_URL}/runsync", json=payload)
+        
+        if response.status_code == 200:
+            result = response.json()
+            print(f"Success: {result['output']['success']}")
+            print(f"Message: {result['output']['message']}")
+            
+            if not result['output']['success']:
+                print("✓ Error handling working correctly")
+            else:
+                print("⚠ Expected error but got success")
+        else:
+            print(f"HTTP Error: {response.status_code}")
+            print(f"Response: {response.text}")
+            
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+    print()
+
 def main():
     """Run all tests."""
     print("=== Face Swap API Test Script ===\n")

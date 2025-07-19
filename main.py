@@ -10,6 +10,7 @@ from insightface.app import FaceAnalysis
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
 from pydantic import BaseModel
+from typing import Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +21,7 @@ assert insightface.__version__ >= '0.7'
 
 app = FastAPI(
     title="Face Swap API",
-    description="FastAPI backend for face swapping using InsightFace",
+    description="FastAPI backend for face swapping using InsightFace with RunPod serverless support",
     version="1.0.0"
 )
 
@@ -110,6 +111,24 @@ class SwapResponse(BaseModel):
     image_base64: str
     message: str = "Face swap completed successfully"
 
+# RunPod serverless models
+class RunPodInput(BaseModel):
+    source_url: str
+    target_url: str
+    source_index: int = 1
+    target_index: int = 1
+
+class RunPodRequest(BaseModel):
+    input: RunPodInput
+
+class RunPodOutput(BaseModel):
+    success: bool
+    image_base64: Optional[str] = None
+    message: str
+
+class RunPodResponse(BaseModel):
+    output: RunPodOutput
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize models on startup."""
@@ -147,39 +166,14 @@ async def swap_faces(request: SwapRequest):
     Returns:
         Base64-encoded PNG image with the face swap applied
     """
-    global face_analysis_app, swapper_model
-    
-    if face_analysis_app is None or swapper_model is None:
-        raise HTTPException(status_code=500, detail="Models not initialized")
-    
     try:
-        logger.info(f"Processing face swap request: source_index={request.source_index}, target_index={request.target_index}")
-        
-        # Download images
-        source_image = download_image(request.source_url)
-        target_image = download_image(request.target_url)
-        
-        # Detect faces in both images
-        logger.info("Detecting faces in source image...")
-        source_faces = sort_faces(face_analysis_app.get(source_image))
-        
-        logger.info("Detecting faces in target image...")
-        target_faces = sort_faces(face_analysis_app.get(target_image))
-        
-        logger.info(f"Found {len(source_faces)} faces in source image, {len(target_faces)} faces in target image")
-        
-        # Get specific faces
-        source_face = get_face(source_faces, request.source_index)
-        target_face = get_face(target_faces, request.target_index)
-        
-        # Perform face swap
-        logger.info("Performing face swap...")
-        result_image = swapper_model.get(target_image, target_face, source_face, paste_back=True)
-        
-        # Convert result to base64
-        result_base64 = image_to_base64(result_image)
-        
-        logger.info("Face swap completed successfully!")
+        # Use shared face swap logic
+        result_base64 = await perform_face_swap_logic(
+            source_url=request.source_url,
+            target_url=request.target_url,
+            source_index=request.source_index,
+            target_index=request.target_index
+        )
         
         return SwapResponse(
             success=True,
@@ -235,6 +229,102 @@ async def swap_faces_image(request: SwapRequest):
     except Exception as e:
         logger.error(f"Unexpected error during face swap: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Face swap failed: {str(e)}")
+
+async def perform_face_swap_logic(source_url: str, target_url: str, source_index: int, target_index: int) -> str:
+    """
+    Core face swap logic that can be reused by different endpoints.
+    
+    Returns:
+        Base64-encoded PNG image with the face swap applied
+    """
+    global face_analysis_app, swapper_model
+    
+    if face_analysis_app is None or swapper_model is None:
+        raise HTTPException(status_code=500, detail="Models not initialized")
+    
+    logger.info(f"Processing face swap: source_index={source_index}, target_index={target_index}")
+    
+    # Download images
+    source_image = download_image(source_url)
+    target_image = download_image(target_url)
+    
+    # Detect faces in both images
+    logger.info("Detecting faces in source image...")
+    source_faces = sort_faces(face_analysis_app.get(source_image))
+    
+    logger.info("Detecting faces in target image...")
+    target_faces = sort_faces(face_analysis_app.get(target_image))
+    
+    logger.info(f"Found {len(source_faces)} faces in source image, {len(target_faces)} faces in target image")
+    
+    # Get specific faces
+    source_face = get_face(source_faces, source_index)
+    target_face = get_face(target_faces, target_index)
+    
+    # Perform face swap
+    logger.info("Performing face swap...")
+    result_image = swapper_model.get(target_image, target_face, source_face, paste_back=True)
+    
+    # Convert result to base64
+    result_base64 = image_to_base64(result_image)
+    
+    logger.info("Face swap completed successfully!")
+    return result_base64
+
+@app.post("/runsync", response_model=RunPodResponse)
+async def runsync_face_swap(request: RunPodRequest):
+    """
+    RunPod serverless endpoint for face swapping.
+    
+    This endpoint follows the RunPod serverless contract:
+    - Accepts input in the format: {"input": {"source_url": "...", "target_url": "...", "source_index": 1, "target_index": 1}}
+    - Returns output in the format: {"output": {"success": true, "image_base64": "...", "message": "..."}}
+    
+    Args:
+        request: RunPod request containing input parameters
+    
+    Returns:
+        RunPod response with success status, base64 image, and message
+    """
+    try:
+        logger.info("Processing RunPod /runsync face swap request")
+        
+        # Extract input parameters
+        input_data = request.input
+        
+        # Perform face swap using shared logic
+        result_base64 = await perform_face_swap_logic(
+            source_url=input_data.source_url,
+            target_url=input_data.target_url,
+            source_index=input_data.source_index,
+            target_index=input_data.target_index
+        )
+        
+        # Return in RunPod format
+        return RunPodResponse(
+            output=RunPodOutput(
+                success=True,
+                image_base64=result_base64,
+                message="Face swap completed successfully"
+            )
+        )
+        
+    except HTTPException as e:
+        logger.error(f"HTTP error in RunPod endpoint: {e.detail}")
+        return RunPodResponse(
+            output=RunPodOutput(
+                success=False,
+                message=e.detail
+            )
+        )
+    except Exception as e:
+        logger.error(f"Unexpected error in RunPod endpoint: {str(e)}")
+        return RunPodResponse(
+            output=RunPodOutput(
+                success=False,
+                message=f"Face swap failed: {str(e)}"
+            )
+        )
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,0 +1,500 @@
+2025-07-18T23:34:39.208Z [INFO] #8 64.93 Setting up libopencv-superres-dev:amd64 (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.208Z [INFO] #8 64.93 Setting up libopencv-videostab-dev:amd64 (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.209Z [INFO] #8 64.93 Setting up libopencv-contrib4.2:amd64 (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.209Z [INFO] #8 64.94 Setting up libopencv4.2-jni (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.210Z [INFO] #8 64.94 Setting up libopencv-stitching-dev:amd64 (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.210Z [INFO] #8 64.94 Setting up libopencv-contrib-dev:amd64 (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.211Z [INFO] #8 64.94 Setting up libopencv4.2-java (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.211Z [INFO] #8 64.94 Setting up libopencv-dev (4.2.0+dfsg-5) ...
+2025-07-18T23:34:39.212Z [INFO] #8 64.94 Processing triggers for libc-bin (2.31-0ubuntu9.17) ...
+2025-07-18T23:34:39.212Z [INFO] #8 64.97 Processing triggers for systemd (245.4-4ubuntu3.24) ...
+2025-07-18T23:34:39.352Z [INFO] #8 64.97 Processing triggers for ca-certificates (20240203~20.04.1) ...
+2025-07-18T23:34:39.353Z [INFO] #8 64.98 Updating certificates in /etc/ssl/certs...
+2025-07-18T23:34:39.606Z [INFO] #8 65.38 0 added, 0 removed; done.
+2025-07-18T23:34:39.607Z [INFO] #8 65.38 Running hooks in /etc/ca-certificates/update.d...
+2025-07-18T23:34:39.761Z [INFO] #8 65.38 done.
+2025-07-18T23:34:39.763Z [INFO] #8 65.38 Processing triggers for libgdk-pixbuf2.0-0:amd64 (2.40.0+dfsg-3ubuntu0.5) ...
+2025-07-18T23:34:39.970Z [INFO] #8 DONE 65.7s
+2025-07-18T23:34:40.121Z [INFO] 
+2025-07-18T23:34:40.122Z [INFO] #9 [3/9] WORKDIR /app
+2025-07-18T23:34:40.138Z [INFO] #9 DONE 0.2s
+2025-07-18T23:34:40.306Z [INFO] 
+2025-07-18T23:34:40.307Z [INFO] #10 [4/9] COPY requirements-api.txt .
+2025-07-18T23:34:40.308Z [INFO] #10 DONE 0.0s
+2025-07-18T23:34:40.309Z [INFO] 
+2025-07-18T23:34:40.309Z [INFO] #11 [5/9] RUN pip3 install --no-cache-dir --upgrade pip setuptools wheel
+2025-07-18T23:34:40.915Z [INFO] #11 0.759 Collecting pip
+2025-07-18T23:34:41.159Z [INFO] #11 0.853   Downloading pip-25.0.1-py3-none-any.whl (1.8 MB)
+2025-07-18T23:34:41.692Z [INFO] #11 1.537 Collecting setuptools
+2025-07-18T23:34:41.872Z [INFO] #11 1.566   Downloading setuptools-75.3.2-py3-none-any.whl (1.3 MB)
+2025-07-18T23:34:41.914Z [INFO] #11 1.759 Collecting wheel
+2025-07-18T23:34:42.122Z [INFO] #11 1.787   Downloading wheel-0.45.1-py3-none-any.whl (72 kB)
+2025-07-18T23:34:42.124Z [INFO] #11 1.816 Installing collected packages: pip, setuptools, wheel
+2025-07-18T23:34:42.125Z [INFO] #11 1.816   Attempting uninstall: pip
+2025-07-18T23:34:42.125Z [INFO] #11 1.816     Found existing installation: pip 20.0.2
+2025-07-18T23:34:42.126Z [INFO] #11 1.817     Not uninstalling pip at /usr/lib/python3/dist-packages, outside environment /usr
+2025-07-18T23:34:42.126Z [INFO] #11 1.817     Can't uninstall 'pip'. No files were found to uninstall.
+2025-07-18T23:34:42.431Z [INFO] #11 2.275   Attempting uninstall: setuptools
+2025-07-18T23:34:42.582Z [INFO] #11 2.276     Found existing installation: setuptools 45.2.0
+2025-07-18T23:34:42.583Z [INFO] #11 2.276     Not uninstalling setuptools at /usr/lib/python3/dist-packages, outside environment /usr
+2025-07-18T23:34:42.583Z [INFO] #11 2.276     Can't uninstall 'setuptools'. No files were found to uninstall.
+2025-07-18T23:34:42.845Z [INFO] #11 2.689   Attempting uninstall: wheel
+2025-07-18T23:34:42.990Z [INFO] #11 2.690     Found existing installation: wheel 0.34.2
+2025-07-18T23:34:42.992Z [INFO] #11 2.690     Not uninstalling wheel at /usr/lib/python3/dist-packages, outside environment /usr
+2025-07-18T23:34:42.993Z [INFO] #11 2.719 Successfully installed pip-25.0.1 setuptools-75.3.2 wheel-0.45.1
+2025-07-18T23:34:42.993Z [INFO] #11 2.690     Can't uninstall 'wheel'. No files were found to uninstall.
+2025-07-18T23:34:42.994Z [INFO] #11 DONE 2.8s
+2025-07-18T23:34:43.141Z [INFO] 
+2025-07-18T23:34:43.142Z [INFO] #12 [6/9] RUN pip3 install --no-cache-dir --timeout 1000 --retries 5 -r requirements-api.txt
+2025-07-18T23:34:43.437Z [INFO] #12 0.446 Collecting fastapi==0.104.1 (from -r requirements-api.txt (line 2))
+2025-07-18T23:34:43.569Z [INFO] #12 0.527   Downloading fastapi-0.104.1-py3-none-any.whl.metadata (24 kB)
+2025-07-18T23:34:43.570Z [INFO] #12 0.578 Collecting uvicorn==0.23.2 (from -r requirements-api.txt (line 3))
+2025-07-18T23:34:43.698Z [INFO] #12 0.602   Downloading uvicorn-0.23.2-py3-none-any.whl.metadata (6.2 kB)
+2025-07-18T23:34:43.699Z [INFO] #12 0.707 Collecting pydantic==2.4.2 (from -r requirements-api.txt (line 4))
+2025-07-18T23:34:43.821Z [INFO] #12 0.732   Downloading pydantic-2.4.2-py3-none-any.whl.metadata (158 kB)
+2025-07-18T23:34:43.821Z [INFO] #12 0.830 Collecting opencv-python-headless==4.8.1.78 (from -r requirements-api.txt (line 7))
+2025-07-18T23:34:43.965Z [INFO] #12 0.856   Downloading opencv_python_headless-4.8.1.78-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (19 kB)
+2025-07-18T23:34:43.966Z [INFO] #12 0.974 Collecting Pillow==10.0.1 (from -r requirements-api.txt (line 8))
+2025-07-18T23:34:44.096Z [INFO] #12 1.000   Downloading Pillow-10.0.1-cp38-cp38-manylinux_2_28_x86_64.whl.metadata (9.5 kB)
+2025-07-18T23:34:44.097Z [INFO] #12 1.105 Collecting numpy==1.24.3 (from -r requirements-api.txt (line 9))
+2025-07-18T23:34:44.229Z [INFO] #12 1.130   Downloading numpy-1.24.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.6 kB)
+2025-07-18T23:34:44.230Z [INFO] #12 1.178 Collecting scikit-image==0.21.0 (from -r requirements-api.txt (line 10))
+2025-07-18T23:34:44.231Z [INFO] #12 1.203   Downloading scikit_image-0.21.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
+2025-07-18T23:34:44.231Z [INFO] #12 1.238 Collecting insightface==0.7.3 (from -r requirements-api.txt (line 13))
+2025-07-18T23:34:44.451Z [INFO] #12 1.264   Downloading insightface-0.7.3.tar.gz (439 kB)
+2025-07-18T23:34:44.452Z [INFO] #12 1.309   Installing build dependencies: started
+2025-07-18T23:34:46.912Z [INFO] #12 3.921   Installing build dependencies: finished with status 'done'
+2025-07-18T23:34:47.062Z [INFO] #12 3.921   Getting requirements to build wheel: started
+2025-07-18T23:34:47.410Z [INFO] #12 4.420   Getting requirements to build wheel: finished with status 'done'
+2025-07-18T23:34:47.562Z [INFO] #12 4.421   Preparing metadata (pyproject.toml): started
+2025-07-18T23:34:47.638Z [INFO] #12 4.648   Preparing metadata (pyproject.toml): finished with status 'done'
+2025-07-18T23:34:47.747Z [INFO] #12 4.697 Collecting onnx==1.14.1 (from -r requirements-api.txt (line 14))
+2025-07-18T23:34:47.748Z [INFO] #12 4.722   Downloading onnx-1.14.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (15 kB)
+2025-07-18T23:34:47.749Z [INFO] #12 4.757 Collecting onnxruntime-gpu==1.15.1 (from -r requirements-api.txt (line 15))
+2025-07-18T23:34:47.856Z [INFO] #12 4.865   Downloading onnxruntime_gpu-1.15.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+2025-07-18T23:34:47.972Z [INFO] #12 4.902 Collecting requests==2.31.0 (from -r requirements-api.txt (line 18))
+2025-07-18T23:34:47.974Z [INFO] #12 4.927   Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+2025-07-18T23:34:47.974Z [INFO] #12 4.957 Collecting python-multipart==0.0.6 (from -r requirements-api.txt (line 21))
+2025-07-18T23:34:47.975Z [INFO] #12 4.981   Downloading python_multipart-0.0.6-py3-none-any.whl.metadata (2.5 kB)
+2025-07-18T23:34:48.077Z [INFO] #12 5.015 Collecting anyio<4.0.0,>=3.7.1 (from fastapi==0.104.1->-r requirements-api.txt (line 2))
+2025-07-18T23:34:48.078Z [INFO] #12 5.040   Downloading anyio-3.7.1-py3-none-any.whl.metadata (4.7 kB)
+2025-07-18T23:34:48.079Z [INFO] #12 5.086 Collecting starlette<0.28.0,>=0.27.0 (from fastapi==0.104.1->-r requirements-api.txt (line 2))
+2025-07-18T23:34:48.190Z [INFO] #12 5.110   Downloading starlette-0.27.0-py3-none-any.whl.metadata (5.8 kB)
+2025-07-18T23:34:48.191Z [INFO] #12 5.143 Collecting typing-extensions>=4.8.0 (from fastapi==0.104.1->-r requirements-api.txt (line 2))
+2025-07-18T23:34:48.192Z [INFO] #12 5.166   Downloading typing_extensions-4.13.2-py3-none-any.whl.metadata (3.0 kB)
+2025-07-18T23:34:48.193Z [INFO] #12 5.200 Collecting click>=7.0 (from uvicorn==0.23.2->-r requirements-api.txt (line 3))
+2025-07-18T23:34:48.299Z [INFO] #12 5.223   Downloading click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+2025-07-18T23:34:48.300Z [INFO] #12 5.253 Collecting h11>=0.8 (from uvicorn==0.23.2->-r requirements-api.txt (line 3))
+2025-07-18T23:34:48.301Z [INFO] #12 5.277   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2025-07-18T23:34:48.301Z [INFO] #12 5.308 Collecting annotated-types>=0.4.0 (from pydantic==2.4.2->-r requirements-api.txt (line 4))
+2025-07-18T23:34:48.473Z [INFO] #12 5.332   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2025-07-18T23:34:48.641Z [INFO] #12 5.650 Collecting pydantic-core==2.10.1 (from pydantic==2.4.2->-r requirements-api.txt (line 4))
+2025-07-18T23:34:48.769Z [INFO] #12 5.676   Downloading pydantic_core-2.10.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+2025-07-18T23:34:48.770Z [INFO] #12 5.778 Collecting scipy>=1.8 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:48.893Z [INFO] #12 5.802   Downloading scipy-1.10.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (58 kB)
+2025-07-18T23:34:48.894Z [INFO] #12 5.839 Collecting networkx>=2.8 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:48.895Z [INFO] #12 5.864   Downloading networkx-3.1-py3-none-any.whl.metadata (5.3 kB)
+2025-07-18T23:34:48.896Z [INFO] #12 5.902 Collecting imageio>=2.27 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:49.030Z [INFO] #12 5.927   Downloading imageio-2.35.1-py3-none-any.whl.metadata (4.9 kB)
+2025-07-18T23:34:49.032Z [INFO] #12 5.974 Collecting tifffile>=2022.8.12 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:49.033Z [INFO] #12 5.998   Downloading tifffile-2023.7.10-py3-none-any.whl.metadata (31 kB)
+2025-07-18T23:34:49.033Z [INFO] #12 6.040 Collecting PyWavelets>=1.1.1 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:49.144Z [INFO] #12 6.065   Downloading PyWavelets-1.4.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.9 kB)
+2025-07-18T23:34:49.144Z [INFO] #12 6.098 Collecting packaging>=21 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:49.145Z [INFO] #12 6.122   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+2025-07-18T23:34:49.146Z [INFO] #12 6.152 Collecting lazy_loader>=0.2 (from scikit-image==0.21.0->-r requirements-api.txt (line 10))
+2025-07-18T23:34:49.309Z [INFO] #12 6.177   Downloading lazy_loader-0.4-py3-none-any.whl.metadata (7.6 kB)
+2025-07-18T23:34:49.310Z [INFO] #12 6.217 Collecting tqdm (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.311Z [INFO] #12 6.241   Downloading tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+2025-07-18T23:34:49.311Z [INFO] #12 6.318 Collecting matplotlib (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.422Z [INFO] #12 6.346   Downloading matplotlib-3.7.5-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (5.7 kB)
+2025-07-18T23:34:49.423Z [INFO] #12 6.406 Collecting scikit-learn (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.424Z [INFO] #12 6.431   Downloading scikit_learn-1.3.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+2025-07-18T23:34:49.609Z [INFO] #12 6.464 Collecting easydict (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.611Z [INFO] #12 6.488   Downloading easydict-1.13-py3-none-any.whl.metadata (4.2 kB)
+2025-07-18T23:34:49.611Z [INFO] #12 6.619 Collecting cython (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.726Z [INFO] #12 6.644   Downloading cython-3.1.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.6 kB)
+2025-07-18T23:34:49.727Z [INFO] #12 6.677 Collecting albumentations (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.727Z [INFO] #12 6.702   Downloading albumentations-1.4.18-py3-none-any.whl.metadata (32 kB)
+2025-07-18T23:34:49.728Z [INFO] #12 6.735 Collecting prettytable (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:49.847Z [INFO] #12 6.760   Downloading prettytable-3.11.0-py3-none-any.whl.metadata (30 kB)
+2025-07-18T23:34:49.848Z [INFO] #12 6.856 Collecting protobuf>=3.20.2 (from onnx==1.14.1->-r requirements-api.txt (line 14))
+2025-07-18T23:34:49.963Z [INFO] #12 6.880   Downloading protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl.metadata (592 bytes)
+2025-07-18T23:34:49.964Z [INFO] #12 6.916 Collecting coloredlogs (from onnxruntime-gpu==1.15.1->-r requirements-api.txt (line 15))
+2025-07-18T23:34:49.965Z [INFO] #12 6.941   Downloading coloredlogs-15.0.1-py2.py3-none-any.whl.metadata (12 kB)
+2025-07-18T23:34:49.966Z [INFO] #12 6.972 Collecting flatbuffers (from onnxruntime-gpu==1.15.1->-r requirements-api.txt (line 15))
+2025-07-18T23:34:50.107Z [INFO] #12 6.997   Downloading flatbuffers-25.2.10-py2.py3-none-any.whl.metadata (875 bytes)
+2025-07-18T23:34:50.108Z [INFO] #12 7.033 Collecting sympy (from onnxruntime-gpu==1.15.1->-r requirements-api.txt (line 15))
+2025-07-18T23:34:50.108Z [INFO] #12 7.059   Downloading sympy-1.13.3-py3-none-any.whl.metadata (12 kB)
+2025-07-18T23:34:50.109Z [INFO] #12 7.116 Collecting charset-normalizer<4,>=2 (from requests==2.31.0->-r requirements-api.txt (line 18))
+2025-07-18T23:34:50.243Z [INFO] #12 7.140   Downloading charset_normalizer-3.4.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (35 kB)
+2025-07-18T23:34:50.245Z [INFO] #12 7.172 Collecting idna<4,>=2.5 (from requests==2.31.0->-r requirements-api.txt (line 18))
+2025-07-18T23:34:50.246Z [INFO] #12 7.253 Collecting urllib3<3,>=1.21.1 (from requests==2.31.0->-r requirements-api.txt (line 18))
+2025-07-18T23:34:50.246Z [INFO] #12 7.195   Downloading idna-3.10-py3-none-any.whl.metadata (10 kB)
+2025-07-18T23:34:50.362Z [INFO] #12 7.277   Downloading urllib3-2.2.3-py3-none-any.whl.metadata (6.5 kB)
+2025-07-18T23:34:50.363Z [INFO] #12 7.312 Collecting certifi>=2017.4.17 (from requests==2.31.0->-r requirements-api.txt (line 18))
+2025-07-18T23:34:50.364Z [INFO] #12 7.335   Downloading certifi-2025.7.14-py3-none-any.whl.metadata (2.4 kB)
+2025-07-18T23:34:50.364Z [INFO] #12 7.371 Collecting sniffio>=1.1 (from anyio<4.0.0,>=3.7.1->fastapi==0.104.1->-r requirements-api.txt (line 2))
+2025-07-18T23:34:50.468Z [INFO] #12 7.395   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+2025-07-18T23:34:50.469Z [INFO] #12 7.426 Collecting exceptiongroup (from anyio<4.0.0,>=3.7.1->fastapi==0.104.1->-r requirements-api.txt (line 2))
+2025-07-18T23:34:50.470Z [INFO] #12 7.450   Downloading exceptiongroup-1.3.0-py3-none-any.whl.metadata (6.7 kB)
+2025-07-18T23:34:50.471Z [INFO] #12 7.477 INFO: pip is looking at multiple versions of albumentations to determine which version is compatible with other requirements. This could take a while.
+2025-07-18T23:34:50.572Z [INFO] #12 7.477 Collecting albumentations (from insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:50.573Z [INFO] #12 7.502   Downloading albumentations-1.4.17-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.574Z [INFO] #12 7.528   Downloading albumentations-1.4.16-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.574Z [INFO] #12 7.555   Downloading albumentations-1.4.15-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.575Z [INFO] #12 7.582   Downloading albumentations-1.4.14-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.678Z [INFO] #12 7.608   Downloading albumentations-1.4.13-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.688Z [INFO] #12 7.634   Downloading albumentations-1.4.12-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.705Z [INFO] #12 7.661   Downloading albumentations-1.4.11-py3-none-any.whl.metadata (39 kB)
+2025-07-18T23:34:50.707Z [INFO] #12 7.662 INFO: pip is still looking at multiple versions of albumentations to determine which version is compatible with other requirements. This could take a while.
+2025-07-18T23:34:50.708Z [INFO] #12 7.687   Downloading albumentations-1.4.10-py3-none-any.whl.metadata (38 kB)
+2025-07-18T23:34:50.787Z [INFO] #12 7.717   Downloading albumentations-1.4.8-py3-none-any.whl.metadata (37 kB)
+2025-07-18T23:34:50.788Z [INFO] #12 7.743   Downloading albumentations-1.4.7-py3-none-any.whl.metadata (37 kB)
+2025-07-18T23:34:50.789Z [INFO] #12 7.770   Downloading albumentations-1.4.6-py3-none-any.whl.metadata (37 kB)
+2025-07-18T23:34:50.790Z [INFO] #12 7.796   Downloading albumentations-1.4.4-py3-none-any.whl.metadata (37 kB)
+2025-07-18T23:34:50.897Z [INFO] #12 7.798 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+2025-07-18T23:34:50.899Z [INFO] #12 7.827   Downloading albumentations-1.4.3-py3-none-any.whl.metadata (37 kB)
+2025-07-18T23:34:50.900Z [INFO] #12 7.854   Downloading albumentations-1.4.2-py3-none-any.whl.metadata (36 kB)
+2025-07-18T23:34:50.901Z [INFO] #12 7.882   Downloading albumentations-1.4.1-py3-none-any.whl.metadata (36 kB)
+2025-07-18T23:34:50.902Z [INFO] #12 7.907   Downloading albumentations-1.4.0-py3-none-any.whl.metadata (35 kB)
+2025-07-18T23:34:51.026Z [INFO] #12 7.933   Downloading albumentations-1.3.1-py3-none-any.whl.metadata (34 kB)
+2025-07-18T23:34:51.027Z [INFO] #12 7.981 Collecting PyYAML (from albumentations->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.028Z [INFO] #12 8.006   Downloading PyYAML-6.0.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.1 kB)
+2025-07-18T23:34:51.028Z [INFO] #12 8.035 Collecting qudida>=0.0.4 (from albumentations->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.170Z [INFO] #12 8.060   Downloading qudida-0.0.4-py3-none-any.whl.metadata (1.5 kB)
+2025-07-18T23:34:51.171Z [INFO] #12 8.098 Collecting humanfriendly>=9.1 (from coloredlogs->onnxruntime-gpu==1.15.1->-r requirements-api.txt (line 15))
+2025-07-18T23:34:51.172Z [INFO] #12 8.123   Downloading humanfriendly-10.0-py2.py3-none-any.whl.metadata (9.2 kB)
+2025-07-18T23:34:51.173Z [INFO] #12 8.179 Collecting contourpy>=1.0.1 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.337Z [INFO] #12 8.204   Downloading contourpy-1.1.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.9 kB)
+2025-07-18T23:34:51.338Z [INFO] #12 8.235 Collecting cycler>=0.10 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.338Z [INFO] #12 8.259   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2025-07-18T23:34:51.339Z [INFO] #12 8.346 Collecting fonttools>=4.22.0 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.441Z [INFO] #12 8.372   Downloading fonttools-4.57.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (102 kB)
+2025-07-18T23:34:51.443Z [INFO] #12 8.425 Collecting kiwisolver>=1.0.1 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.443Z [INFO] #12 8.451   Downloading kiwisolver-1.4.7-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl.metadata (6.3 kB)
+2025-07-18T23:34:51.545Z [INFO] #12 8.498 Collecting pyparsing>=2.3.1 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.546Z [INFO] #12 8.522   Downloading pyparsing-3.1.4-py3-none-any.whl.metadata (5.1 kB)
+2025-07-18T23:34:51.547Z [INFO] #12 8.554 Collecting python-dateutil>=2.7 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.662Z [INFO] #12 8.578   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2025-07-18T23:34:51.663Z [INFO] #12 8.615 Collecting importlib-resources>=3.2.0 (from matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.664Z [INFO] #12 8.639   Downloading importlib_resources-6.4.5-py3-none-any.whl.metadata (4.0 kB)
+2025-07-18T23:34:51.664Z [INFO] #12 8.671 Collecting wcwidth (from prettytable->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.779Z [INFO] #12 8.695   Downloading wcwidth-0.2.13-py2.py3-none-any.whl.metadata (14 kB)
+2025-07-18T23:34:51.779Z [INFO] #12 8.733 Collecting joblib>=1.1.1 (from scikit-learn->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.780Z [INFO] #12 8.758   Downloading joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
+2025-07-18T23:34:51.781Z [INFO] #12 8.788 Collecting threadpoolctl>=2.0.0 (from scikit-learn->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:51.904Z [INFO] #12 8.812   Downloading threadpoolctl-3.5.0-py3-none-any.whl.metadata (13 kB)
+2025-07-18T23:34:51.905Z [INFO] #12 8.844 Collecting mpmath<1.4,>=1.1.0 (from sympy->onnxruntime-gpu==1.15.1->-r requirements-api.txt (line 15))
+2025-07-18T23:34:51.906Z [INFO] #12 8.869   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+2025-07-18T23:34:51.908Z [INFO] #12 8.913 Collecting zipp>=3.1.0 (from importlib-resources>=3.2.0->matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:52.033Z [INFO] #12 8.939   Downloading zipp-3.20.2-py3-none-any.whl.metadata (3.7 kB)
+2025-07-18T23:34:52.034Z [INFO] #12 8.974 Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib->insightface==0.7.3->-r requirements-api.txt (line 13))
+2025-07-18T23:34:52.035Z [INFO] #12 8.998   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2025-07-18T23:34:52.036Z [INFO] #12 9.042 Downloading fastapi-0.104.1-py3-none-any.whl (92 kB)
+2025-07-18T23:34:52.265Z [INFO] #12 9.067 Downloading uvicorn-0.23.2-py3-none-any.whl (59 kB)
+2025-07-18T23:34:52.266Z [INFO] #12 9.093 Downloading pydantic-2.4.2-py3-none-any.whl (395 kB)
+2025-07-18T23:34:52.267Z [INFO] #12 9.123 Downloading opencv_python_headless-4.8.1.78-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (49.1 MB)
+2025-07-18T23:34:52.670Z [INFO] #12 9.488    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.1/49.1 MB 135.5 MB/s eta 0:00:00
+2025-07-18T23:34:52.671Z [INFO] #12 9.513 Downloading Pillow-10.0.1-cp38-cp38-manylinux_2_28_x86_64.whl (3.6 MB)
+2025-07-18T23:34:52.672Z [INFO] #12 9.538    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.6/3.6 MB 146.2 MB/s eta 0:00:00
+2025-07-18T23:34:52.672Z [INFO] #12 9.563 Downloading numpy-1.24.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.3 MB)
+2025-07-18T23:34:52.673Z [INFO] #12 9.679    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.3/17.3 MB 148.7 MB/s eta 0:00:00
+2025-07-18T23:34:52.789Z [INFO] #12 9.705 Downloading scikit_image-0.21.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (13.9 MB)
+2025-07-18T23:34:52.910Z [INFO] #12 9.799    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.9/13.9 MB 148.6 MB/s eta 0:00:00
+2025-07-18T23:34:52.911Z [INFO] #12 9.824 Downloading onnx-1.14.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (14.6 MB)
+2025-07-18T23:34:53.086Z [INFO] #12 9.919    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.6/14.6 MB 154.1 MB/s eta 0:00:00
+2025-07-18T23:34:53.087Z [INFO] #12 9.944 Downloading onnxruntime_gpu-1.15.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (121.6 MB)
+2025-07-18T23:35:03.567Z [INFO] #12 20.46    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 121.6/121.6 MB 11.5 MB/s eta 0:00:00
+2025-07-18T23:35:03.569Z [INFO] #12 20.49 Downloading requests-2.31.0-py3-none-any.whl (62 kB)
+2025-07-18T23:35:03.569Z [INFO] #12 20.51 Downloading python_multipart-0.0.6-py3-none-any.whl (45 kB)
+2025-07-18T23:35:03.570Z [INFO] #12 20.54 Downloading pydantic_core-2.10.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2025-07-18T23:35:03.571Z [INFO] #12 20.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 206.4 MB/s eta 0:00:00
+2025-07-18T23:35:03.572Z [INFO] #12 20.58 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2025-07-18T23:35:03.690Z [INFO] #12 20.60 Downloading anyio-3.7.1-py3-none-any.whl (80 kB)
+2025-07-18T23:35:03.691Z [INFO] #12 20.63 Downloading certifi-2025.7.14-py3-none-any.whl (162 kB)
+2025-07-18T23:35:03.692Z [INFO] #12 20.65 Downloading charset_normalizer-3.4.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (147 kB)
+2025-07-18T23:35:03.693Z [INFO] #12 20.68 Downloading click-8.1.8-py3-none-any.whl (98 kB)
+2025-07-18T23:35:03.693Z [INFO] #12 20.70 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2025-07-18T23:35:03.794Z [INFO] #12 20.72 Downloading idna-3.10-py3-none-any.whl (70 kB)
+2025-07-18T23:35:03.794Z [INFO] #12 20.75 Downloading imageio-2.35.1-py3-none-any.whl (315 kB)
+2025-07-18T23:35:03.795Z [INFO] #12 20.78 Downloading lazy_loader-0.4-py3-none-any.whl (12 kB)
+2025-07-18T23:35:03.795Z [INFO] #12 20.80 Downloading networkx-3.1-py3-none-any.whl (2.1 MB)
+2025-07-18T23:35:03.923Z [INFO] #12 20.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 299.4 MB/s eta 0:00:00
+2025-07-18T23:35:03.924Z [INFO] #12 20.84 Downloading packaging-25.0-py3-none-any.whl (66 kB)
+2025-07-18T23:35:03.925Z [INFO] #12 20.86 Downloading protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl (319 kB)
+2025-07-18T23:35:03.926Z [INFO] #12 20.89 Downloading PyWavelets-1.4.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (6.9 MB)
+2025-07-18T23:35:04.100Z [INFO] #12 20.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 146.9 MB/s eta 0:00:00
+2025-07-18T23:35:04.102Z [INFO] #12 20.96 Downloading scipy-1.10.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (34.5 MB)
+2025-07-18T23:35:04.183Z [INFO] #12 21.19    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 34.5/34.5 MB 148.4 MB/s eta 0:00:00
+2025-07-18T23:35:04.307Z [INFO] #12 21.22 Downloading starlette-0.27.0-py3-none-any.whl (66 kB)
+2025-07-18T23:35:04.308Z [INFO] #12 21.24 Downloading tifffile-2023.7.10-py3-none-any.whl (220 kB)
+2025-07-18T23:35:04.309Z [INFO] #12 21.27 Downloading typing_extensions-4.13.2-py3-none-any.whl (45 kB)
+2025-07-18T23:35:04.309Z [INFO] #12 21.29 Downloading urllib3-2.2.3-py3-none-any.whl (126 kB)
+2025-07-18T23:35:04.310Z [INFO] #12 21.32 Downloading albumentations-1.3.1-py3-none-any.whl (125 kB)
+2025-07-18T23:35:04.417Z [INFO] #12 21.34 Downloading coloredlogs-15.0.1-py2.py3-none-any.whl (46 kB)
+2025-07-18T23:35:04.418Z [INFO] #12 21.37 Downloading cython-3.1.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+2025-07-18T23:35:04.419Z [INFO] #12 21.38    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 357.2 MB/s eta 0:00:00
+2025-07-18T23:35:04.419Z [INFO] #12 21.40 Downloading easydict-1.13-py3-none-any.whl (6.8 kB)
+2025-07-18T23:35:04.420Z [INFO] #12 21.43 Downloading flatbuffers-25.2.10-py2.py3-none-any.whl (30 kB)
+2025-07-18T23:35:04.521Z [INFO] #12 21.45 Downloading matplotlib-3.7.5-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (9.2 MB)
+2025-07-18T23:35:04.522Z [INFO] #12 21.51    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 173.3 MB/s eta 0:00:00
+2025-07-18T23:35:04.522Z [INFO] #12 21.53 Downloading prettytable-3.11.0-py3-none-any.whl (28 kB)
+2025-07-18T23:35:04.622Z [INFO] #12 21.56 Downloading scikit_learn-1.3.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.1 MB)
+2025-07-18T23:35:04.726Z [INFO] #12 21.63    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.1/11.1 MB 150.3 MB/s eta 0:00:00
+2025-07-18T23:35:04.728Z [INFO] #12 21.66 Downloading sympy-1.13.3-py3-none-any.whl (6.2 MB)
+2025-07-18T23:35:04.729Z [INFO] #12 21.69    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.2/6.2 MB 194.7 MB/s eta 0:00:00
+2025-07-18T23:35:04.730Z [INFO] #12 21.71 Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+2025-07-18T23:35:04.731Z [INFO] #12 21.74 Downloading contourpy-1.1.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (301 kB)
+2025-07-18T23:35:04.837Z [INFO] #12 21.76 Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2025-07-18T23:35:04.840Z [INFO] #12 21.79 Downloading fonttools-4.57.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.7 MB)
+2025-07-18T23:35:04.841Z [INFO] #12 21.82    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 152.7 MB/s eta 0:00:00
+2025-07-18T23:35:04.842Z [INFO] #12 21.85 Downloading humanfriendly-10.0-py2.py3-none-any.whl (86 kB)
+2025-07-18T23:35:04.940Z [INFO] #12 21.87 Downloading importlib_resources-6.4.5-py3-none-any.whl (36 kB)
+2025-07-18T23:35:04.942Z [INFO] #12 21.90 Downloading joblib-1.4.2-py3-none-any.whl (301 kB)
+2025-07-18T23:35:04.943Z [INFO] #12 21.92 Downloading kiwisolver-1.4.7-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl (1.2 MB)
+2025-07-18T23:35:04.943Z [INFO] #12 21.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 284.6 MB/s eta 0:00:00
+2025-07-18T23:35:04.944Z [INFO] #12 21.95 Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+2025-07-18T23:35:05.056Z [INFO] #12 21.99    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 383.5 MB/s eta 0:00:00
+2025-07-18T23:35:05.058Z [INFO] #12 22.02 Downloading pyparsing-3.1.4-py3-none-any.whl (104 kB)
+2025-07-18T23:35:05.058Z [INFO] #12 22.04 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2025-07-18T23:35:05.059Z [INFO] #12 22.07 Downloading qudida-0.0.4-py3-none-any.whl (3.5 kB)
+2025-07-18T23:35:05.156Z [INFO] #12 22.09 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+2025-07-18T23:35:05.157Z [INFO] #12 22.11 Downloading threadpoolctl-3.5.0-py3-none-any.whl (18 kB)
+2025-07-18T23:35:05.158Z [INFO] #12 22.14 Downloading exceptiongroup-1.3.0-py3-none-any.whl (16 kB)
+2025-07-18T23:35:05.159Z [INFO] #12 22.16 Downloading PyYAML-6.0.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (746 kB)
+2025-07-18T23:35:05.384Z [INFO] #12 22.17    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 746.5/746.5 kB 1.1 GB/s eta 0:00:00
+2025-07-18T23:35:05.385Z [INFO] #12 22.19 Downloading wcwidth-0.2.13-py2.py3-none-any.whl (34 kB)
+2025-07-18T23:35:05.386Z [INFO] #12 22.22 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2025-07-18T23:35:05.386Z [INFO] #12 22.24 Downloading zipp-3.20.2-py3-none-any.whl (9.2 kB)
+2025-07-18T23:35:05.453Z [INFO] #12 22.46 Building wheels for collected packages: insightface
+2025-07-18T23:35:05.604Z [INFO] #12 22.46   Building wheel for insightface (pyproject.toml): started
+2025-07-18T23:35:07.868Z [INFO] #12 24.88   Building wheel for insightface (pyproject.toml): finished with status 'done'
+2025-07-18T23:35:08.014Z [INFO] #12 24.88   Created wheel for insightface: filename=insightface-0.7.3-cp38-cp38-linux_x86_64.whl size=1137650 sha256=36cdde683eef00ba80ce53ab07ea7bcca69877b26daf8d183e2fc22be78a7bf7
+2025-07-18T23:35:08.015Z [INFO] #12 24.88   Stored in directory: /tmp/pip-ephem-wheel-cache-7sw_9h4k/wheels/2c/10/16/704fc9c89a96651348938dfda339b3fa2ac5295f0012cb0c14
+2025-07-18T23:35:08.016Z [INFO] #12 24.88 Successfully built insightface
+2025-07-18T23:35:08.016Z [INFO] #12 25.02 Installing collected packages: wcwidth, mpmath, flatbuffers, easydict, zipp, urllib3, typing-extensions, tqdm, threadpoolctl, sympy, sniffio, six, PyYAML, python-multipart, pyparsing, protobuf, prettytable, Pillow, packaging, numpy, networkx, kiwisolver, joblib, idna, humanfriendly, h11, fonttools, cython, cycler, click, charset-normalizer, certifi, uvicorn, tifffile, scipy, requests, PyWavelets, python-dateutil, pydantic-core, opencv-python-headless, onnx, lazy_loader, importlib-resources, imageio, exceptiongroup, contourpy, coloredlogs, annotated-types, scikit-learn, scikit-image, pydantic, onnxruntime-gpu, matplotlib, anyio, starlette, qudida, fastapi, albumentations, insightface
+2025-07-18T23:35:18.721Z [INFO] #12 35.73 Successfully installed Pillow-10.0.1 PyWavelets-1.4.1 PyYAML-6.0.2 albumentations-1.3.1 annotated-types-0.7.0 anyio-3.7.1 certifi-2025.7.14 charset-normalizer-3.4.2 click-8.1.8 coloredlogs-15.0.1 contourpy-1.1.1 cycler-0.12.1 cython-3.1.2 easydict-1.13 exceptiongroup-1.3.0 fastapi-0.104.1 flatbuffers-25.2.10 fonttools-4.57.0 h11-0.16.0 humanfriendly-10.0 idna-3.10 imageio-2.35.1 importlib-resources-6.4.5 insightface-0.7.3 joblib-1.4.2 kiwisolver-1.4.7 lazy_loader-0.4 matplotlib-3.7.5 mpmath-1.3.0 networkx-3.1 numpy-1.24.3 onnx-1.14.1 onnxruntime-gpu-1.15.1 opencv-python-headless-4.8.1.78 packaging-25.0 prettytable-3.11.0 protobuf-5.29.5 pydantic-2.4.2 pydantic-core-2.10.1 pyparsing-3.1.4 python-dateutil-2.9.0.post0 python-multipart-0.0.6 qudida-0.0.4 requests-2.31.0 scikit-image-0.21.0 scikit-learn-1.3.2 scipy-1.10.1 six-1.17.0 sniffio-1.3.1 starlette-0.27.0 sympy-1.13.3 threadpoolctl-3.5.0 tifffile-2023.7.10 tqdm-4.67.1 typing-extensions-4.13.2 urllib3-2.2.3 uvicorn-0.23.2 wcwidth-0.2.13 zipp-3.20.2
+2025-07-18T23:35:18.871Z [INFO] #12 35.73 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2025-07-18T23:35:19.524Z [INFO] #12 DONE 36.5s
+2025-07-18T23:35:19.675Z [INFO] 
+2025-07-18T23:35:19.677Z [INFO] #13 [7/9] COPY main.py .
+2025-07-18T23:35:19.677Z [INFO] #13 DONE 0.2s
+2025-07-18T23:35:19.842Z [INFO] 
+2025-07-18T23:35:19.844Z [INFO] #14 [8/9] COPY inswapper_128.onnx .
+2025-07-18T23:35:19.844Z [INFO] #14 DONE 0.0s
+2025-07-18T23:35:19.845Z [INFO] 
+2025-07-18T23:35:19.845Z [INFO] #15 [9/9] RUN mkdir -p /root/.insightface/models
+2025-07-18T23:35:19.846Z [INFO] #15 DONE 0.2s
+2025-07-18T23:35:19.996Z [INFO] 
+2025-07-18T23:35:19.997Z [INFO] #16 exporting to oci image format. This takes a little bit of time. Please be patient.
+2025-07-18T23:35:19.997Z [INFO] #16 exporting layers
+2025-07-18T23:35:57.671Z [INFO] #16 exporting layers 37.8s done
+2025-07-18T23:35:57.824Z [INFO] #16 exporting manifest sha256:e60b8a74a7910b12e1e44225ba52b34df3eab2f64160d4bb1f2ac04931f4aa52 done
+2025-07-18T23:35:57.825Z [INFO] #16 exporting config sha256:8160ac5595a541ddd85deaf49a0458550579407b4fe36a95a40eb41d61021178 done
+2025-07-18T23:35:57.826Z [INFO] #16 sending tarball
+2025-07-18T23:35:59.724Z [INFO] #16 sending tarball 2.1s done
+2025-07-18T23:35:59.725Z [INFO] #16 DONE 39.9s
+2025-07-18T23:35:59.878Z [INFO] 
+2025-07-18T23:35:59.879Z [INFO] #17 exporting cache to client directory
+2025-07-18T23:35:59.881Z [INFO] #17 preparing build cache for export
+2025-07-18T23:35:59.882Z [INFO] #17 writing layer sha256:13b7e930469f6d3575a320709035c6acf6f5485a76abcf03d1b92a64c09c2476
+2025-07-18T23:35:59.943Z [INFO] #17 writing layer sha256:13b7e930469f6d3575a320709035c6acf6f5485a76abcf03d1b92a64c09c2476 0.2s done
+2025-07-18T23:35:59.944Z [INFO] #17 writing layer sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6
+2025-07-18T23:36:02.112Z [INFO] #17 writing layer sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6 2.2s done
+2025-07-18T23:36:02.114Z [INFO] #17 writing layer sha256:3f1efdbf2e013606fd5efe268d7e60e94b73dc3fe4a1ce311459c4a943445586
+2025-07-18T23:36:02.247Z [INFO] #17 writing layer sha256:3f1efdbf2e013606fd5efe268d7e60e94b73dc3fe4a1ce311459c4a943445586 0.1s done
+2025-07-18T23:36:02.249Z [INFO] #17 writing layer sha256:5c770f6d7fef83a2ca11004a7e1c6a07908a90f697f829c1f107d4faf0bcecbb 0.1s done
+2025-07-18T23:36:02.250Z [INFO] #17 writing layer sha256:644fbe1f45b0154b5f2d35b7de323ca662001a5856fa3e9c675362a44ba22976
+2025-07-18T23:36:02.396Z [INFO] #17 writing layer sha256:644fbe1f45b0154b5f2d35b7de323ca662001a5856fa3e9c675362a44ba22976 0.1s done
+2025-07-18T23:36:02.398Z [INFO] #17 writing layer sha256:822455a3fa5e06a841ae8105a60fa92452680004acfc08d3a6af14c930d0ec00 0.1s done
+2025-07-18T23:36:02.398Z [INFO] #17 writing layer sha256:957ae28ccd00a061205e2c2a5e470d938d422fd0b66b969e700d87e184e6ba85
+2025-07-18T23:36:02.560Z [INFO] #17 writing layer sha256:957ae28ccd00a061205e2c2a5e470d938d422fd0b66b969e700d87e184e6ba85 0.1s done
+2025-07-18T23:36:02.561Z [INFO] #17 writing layer sha256:e0bdd45a9628214d91076ac33fded7151483464ae04ded48cbd3d51e83c07714 0.1s done
+2025-07-18T23:36:02.562Z [INFO] #17 writing layer sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a
+2025-07-18T23:36:03.917Z [INFO] #17 writing layer sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a 1.4s done
+2025-07-18T23:36:04.062Z [INFO] #17 preparing build cache for export 4.3s done
+2025-07-18T23:36:04.064Z [INFO] #17 writing config sha256:db18ff690da78e29c99a0196e910bb11ecb15c503bef75bb2c143b42bfc2dc75 0.1s done
+2025-07-18T23:36:04.065Z [INFO] #17 writing cache manifest sha256:0f5b4e6b85b3cb649ec6d4ea39036a655587a8d5ee793ddba19e88fd21624a5c 0.1s done
+2025-07-18T23:36:04.065Z [INFO] #17 DONE 4.3s
+2025-07-18T23:36:04.104Z [INFO] zen_davinci
+2025-07-18T23:36:04.105Z [INFO] Build complete.
+2025-07-18T23:36:05.552Z [INFO] Pushing image to registry. This takes some time - please be patient.
+2025-07-18T23:36:05.603Z [INFO] Preparing image...
+2025-07-18T23:36:05.605Z [INFO] Image registry.runpod.net/intisargit-face-swap-runpod-api-main-dockerfile:b73087042 found locally, saving to disk...
+2025-07-18T23:36:05.605Z [INFO] Image saved as output.tar, extracting...
+2025-07-18T23:36:05.807Z [INFO] Extracted to .output-image
+2025-07-18T23:36:05.808Z [INFO] {
+2025-07-18T23:36:05.809Z [INFO] schemaVersion: 2,
+2025-07-18T23:36:05.810Z [INFO] mediaType: "application/vnd.oci.image.index.v1+json",
+2025-07-18T23:36:05.810Z [INFO] manifests: [
+2025-07-18T23:36:05.811Z [INFO] {
+2025-07-18T23:36:05.811Z [INFO] mediaType: "application/vnd.oci.image.manifest.v1+json",
+2025-07-18T23:36:05.812Z [INFO] digest: "sha256:e60b8a74a7910b12e1e44225ba52b34df3eab2f64160d4bb1f2ac04931f4aa52",
+2025-07-18T23:36:05.813Z [INFO] size: 2002,
+2025-07-18T23:36:05.813Z [INFO] annotations: [Object ...],
+2025-07-18T23:36:05.814Z [INFO] platform: [Object ...],
+2025-07-18T23:36:05.814Z [INFO] }
+2025-07-18T23:36:05.815Z [INFO] ],
+2025-07-18T23:36:05.815Z [INFO] }
+2025-07-18T23:36:05.816Z [INFO] e60b8a74a7910b12e1e44225ba52b34df3eab2f64160d4bb1f2ac04931f4aa52 manifest file found
+2025-07-18T23:36:05.816Z [INFO] {
+2025-07-18T23:36:05.817Z [INFO] schemaVersion: 2,
+2025-07-18T23:36:05.817Z [INFO] mediaType: "application/vnd.oci.image.manifest.v1+json",
+2025-07-18T23:36:05.818Z [INFO] config: {
+2025-07-18T23:36:05.818Z [INFO] mediaType: "application/vnd.oci.image.config.v1+json",
+2025-07-18T23:36:05.819Z [INFO] digest: "sha256:8160ac5595a541ddd85deaf49a0458550579407b4fe36a95a40eb41d61021178",
+2025-07-18T23:36:05.819Z [INFO] size: 4662,
+2025-07-18T23:36:05.820Z [INFO] layers: [
+2025-07-18T23:36:05.820Z [INFO] },
+2025-07-18T23:36:05.821Z [INFO] {
+2025-07-18T23:36:05.821Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.822Z [INFO] digest: "sha256:13b7e930469f6d3575a320709035c6acf6f5485a76abcf03d1b92a64c09c2476",
+2025-07-18T23:36:05.822Z [INFO] size: 27510394,
+2025-07-18T23:36:05.823Z [INFO] }, {
+2025-07-18T23:36:05.823Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.824Z [INFO] digest: "sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6",
+2025-07-18T23:36:05.824Z [INFO] size: 569418168,
+2025-07-18T23:36:05.825Z [INFO] }, {
+2025-07-18T23:36:05.825Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.826Z [INFO] digest: "sha256:644fbe1f45b0154b5f2d35b7de323ca662001a5856fa3e9c675362a44ba22976",
+2025-07-18T23:36:05.826Z [INFO] size: 92,
+2025-07-18T23:36:05.827Z [INFO] }, {
+2025-07-18T23:36:05.827Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.828Z [INFO] digest: "sha256:e0bdd45a9628214d91076ac33fded7151483464ae04ded48cbd3d51e83c07714",
+2025-07-18T23:36:05.828Z [INFO] size: 390,
+2025-07-18T23:36:05.829Z [INFO] }, {
+2025-07-18T23:36:05.829Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.830Z [INFO] digest: "sha256:957ae28ccd00a061205e2c2a5e470d938d422fd0b66b969e700d87e184e6ba85",
+2025-07-18T23:36:05.830Z [INFO] size: 5563508,
+2025-07-18T23:36:05.831Z [INFO] }, {
+2025-07-18T23:36:05.831Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.832Z [INFO] digest: "sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a",
+2025-07-18T23:36:05.832Z [INFO] size: 358893760,
+2025-07-18T23:36:05.833Z [INFO] }, {
+2025-07-18T23:36:05.833Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.834Z [INFO] digest: "sha256:3f1efdbf2e013606fd5efe268d7e60e94b73dc3fe4a1ce311459c4a943445586",
+2025-07-18T23:36:05.834Z [INFO] size: 2406,
+2025-07-18T23:36:05.835Z [INFO] }, {
+2025-07-18T23:36:05.835Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.836Z [INFO] digest: "sha256:5c770f6d7fef83a2ca11004a7e1c6a07908a90f697f829c1f107d4faf0bcecbb",
+2025-07-18T23:36:05.836Z [INFO] size: 250,
+2025-07-18T23:36:05.837Z [INFO] }, {
+2025-07-18T23:36:05.837Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.838Z [INFO] digest: "sha256:822455a3fa5e06a841ae8105a60fa92452680004acfc08d3a6af14c930d0ec00",
+2025-07-18T23:36:05.838Z [INFO] size: 142,
+2025-07-18T23:36:05.839Z [INFO] }
+2025-07-18T23:36:05.839Z [INFO] ],
+2025-07-18T23:36:05.840Z [INFO] } manifest
+2025-07-18T23:36:05.840Z [INFO] [
+2025-07-18T23:36:05.841Z [INFO] {
+2025-07-18T23:36:05.841Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.842Z [INFO] digest: "sha256:13b7e930469f6d3575a320709035c6acf6f5485a76abcf03d1b92a64c09c2476",
+2025-07-18T23:36:05.842Z [INFO] size: 27510394,
+2025-07-18T23:36:05.843Z [INFO] }, {
+2025-07-18T23:36:05.843Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.844Z [INFO] size: 569418168,
+2025-07-18T23:36:05.844Z [INFO] digest: "sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6",
+2025-07-18T23:36:05.845Z [INFO] }, {
+2025-07-18T23:36:05.845Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.846Z [INFO] digest: "sha256:644fbe1f45b0154b5f2d35b7de323ca662001a5856fa3e9c675362a44ba22976",
+2025-07-18T23:36:05.846Z [INFO] size: 92,
+2025-07-18T23:36:05.847Z [INFO] }, {
+2025-07-18T23:36:05.847Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.848Z [INFO] size: 390,
+2025-07-18T23:36:05.848Z [INFO] digest: "sha256:e0bdd45a9628214d91076ac33fded7151483464ae04ded48cbd3d51e83c07714",
+2025-07-18T23:36:05.849Z [INFO] }, {
+2025-07-18T23:36:05.849Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.850Z [INFO] digest: "sha256:957ae28ccd00a061205e2c2a5e470d938d422fd0b66b969e700d87e184e6ba85",
+2025-07-18T23:36:05.850Z [INFO] size: 5563508,
+2025-07-18T23:36:05.851Z [INFO] }, {
+2025-07-18T23:36:05.851Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.852Z [INFO] size: 358893760,
+2025-07-18T23:36:05.852Z [INFO] digest: "sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a",
+2025-07-18T23:36:05.853Z [INFO] }, {
+2025-07-18T23:36:05.853Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.854Z [INFO] digest: "sha256:3f1efdbf2e013606fd5efe268d7e60e94b73dc3fe4a1ce311459c4a943445586",
+2025-07-18T23:36:05.854Z [INFO] size: 2406,
+2025-07-18T23:36:05.855Z [INFO] }, {
+2025-07-18T23:36:05.855Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.856Z [INFO] digest: "sha256:5c770f6d7fef83a2ca11004a7e1c6a07908a90f697f829c1f107d4faf0bcecbb",
+2025-07-18T23:36:05.856Z [INFO] size: 250,
+2025-07-18T23:36:05.857Z [INFO] }, {
+2025-07-18T23:36:05.857Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:05.858Z [INFO] digest: "sha256:822455a3fa5e06a841ae8105a60fa92452680004acfc08d3a6af14c930d0ec00",
+2025-07-18T23:36:05.858Z [INFO] size: 142,
+2025-07-18T23:36:05.859Z [INFO] }
+2025-07-18T23:36:05.859Z [INFO] ]
+2025-07-18T23:36:05.860Z [INFO] Compressing...
+2025-07-18T23:36:05.860Z [INFO] Starting push to remote
+2025-07-18T23:36:07.678Z [INFO] Pushed sha256:644fbe1f45b0154b5f2d35b7de323ca662001a5856fa3e9c675362a44ba22976
+2025-07-18T23:36:07.828Z [INFO] Pushed sha256:e0bdd45a9628214d91076ac33fded7151483464ae04ded48cbd3d51e83c07714
+2025-07-18T23:36:08.204Z [INFO] Pushed sha256:957ae28ccd00a061205e2c2a5e470d938d422fd0b66b969e700d87e184e6ba85
+2025-07-18T23:36:08.706Z [INFO] Pushed sha256:13b7e930469f6d3575a320709035c6acf6f5485a76abcf03d1b92a64c09c2476
+2025-07-18T23:36:09.563Z [INFO] Pushed sha256:3f1efdbf2e013606fd5efe268d7e60e94b73dc3fe4a1ce311459c4a943445586
+2025-07-18T23:36:09.952Z [INFO] Pushed sha256:5c770f6d7fef83a2ca11004a7e1c6a07908a90f697f829c1f107d4faf0bcecbb
+2025-07-18T23:36:10.936Z [INFO] Pushed sha256:822455a3fa5e06a841ae8105a60fa92452680004acfc08d3a6af14c930d0ec00
+2025-07-18T23:36:11.593Z [INFO] Pushed sha256:8160ac5595a541ddd85deaf49a0458550579407b4fe36a95a40eb41d61021178
+2025-07-18T23:36:11.748Z [INFO] sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6: 469418168 upload bytes left.
+2025-07-18T23:36:12.763Z [INFO] sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a: 258893760 upload bytes left.
+2025-07-18T23:36:16.443Z [INFO] sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6: 369418168 upload bytes left.
+2025-07-18T23:36:17.680Z [INFO] sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a: 158893760 upload bytes left.
+2025-07-18T23:36:20.777Z [INFO] sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6: 269418168 upload bytes left.
+2025-07-18T23:36:22.445Z [INFO] sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a: 58893760 upload bytes left.
+2025-07-18T23:36:25.106Z [INFO] sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6: 169418168 upload bytes left.
+2025-07-18T23:36:26.653Z [INFO] Pushed sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a
+2025-07-18T23:36:29.747Z [INFO] sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6: 69418168 upload bytes left.
+2025-07-18T23:36:33.870Z [INFO] Pushed sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6
+2025-07-18T23:36:35.162Z [INFO] {
+2025-07-18T23:36:35.165Z [INFO] schemaVersion: 2,
+2025-07-18T23:36:35.166Z [INFO] mediaType: "application/vnd.oci.image.manifest.v1+json",
+2025-07-18T23:36:35.166Z [INFO] config: {
+2025-07-18T23:36:35.167Z [INFO] size: 4662,
+2025-07-18T23:36:35.167Z [INFO] mediaType: "application/vnd.oci.image.config.v1+json",
+2025-07-18T23:36:35.168Z [INFO] digest: "sha256:8160ac5595a541ddd85deaf49a0458550579407b4fe36a95a40eb41d61021178",
+2025-07-18T23:36:35.168Z [INFO] },
+2025-07-18T23:36:35.169Z [INFO] layers: [
+2025-07-18T23:36:35.169Z [INFO] {
+2025-07-18T23:36:35.170Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.170Z [INFO] size: 27510394,
+2025-07-18T23:36:35.171Z [INFO] digest: "sha256:13b7e930469f6d3575a320709035c6acf6f5485a76abcf03d1b92a64c09c2476",
+2025-07-18T23:36:35.171Z [INFO] },
+2025-07-18T23:36:35.172Z [INFO] {
+2025-07-18T23:36:35.172Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.173Z [INFO] size: 569418168,
+2025-07-18T23:36:35.173Z [INFO] digest: "sha256:3d7f2ce29ac8f075dad8e2dffbd07270fb37a395d23c1329bdf01d94b7240ba6",
+2025-07-18T23:36:35.174Z [INFO] },
+2025-07-18T23:36:35.174Z [INFO] {
+2025-07-18T23:36:35.175Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.175Z [INFO] size: 92,
+2025-07-18T23:36:35.176Z [INFO] digest: "sha256:644fbe1f45b0154b5f2d35b7de323ca662001a5856fa3e9c675362a44ba22976",
+2025-07-18T23:36:35.176Z [INFO] },
+2025-07-18T23:36:35.177Z [INFO] {
+2025-07-18T23:36:35.177Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.178Z [INFO] size: 390,
+2025-07-18T23:36:35.178Z [INFO] digest: "sha256:e0bdd45a9628214d91076ac33fded7151483464ae04ded48cbd3d51e83c07714",
+2025-07-18T23:36:35.179Z [INFO] },
+2025-07-18T23:36:35.180Z [INFO] {
+2025-07-18T23:36:35.180Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.181Z [INFO] size: 5563508,
+2025-07-18T23:36:35.181Z [INFO] digest: "sha256:957ae28ccd00a061205e2c2a5e470d938d422fd0b66b969e700d87e184e6ba85",
+2025-07-18T23:36:35.182Z [INFO] },
+2025-07-18T23:36:35.182Z [INFO] {
+2025-07-18T23:36:35.183Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.183Z [INFO] size: 358893760,
+2025-07-18T23:36:35.184Z [INFO] digest: "sha256:e0e8df6f3bd3ac7cd0a68280d5330ecb1b35c456d8ef6818658b3f7af7b48a1a",
+2025-07-18T23:36:35.185Z [INFO] },
+2025-07-18T23:36:35.186Z [INFO] {
+2025-07-18T23:36:35.186Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.187Z [INFO] size: 2406,
+2025-07-18T23:36:35.188Z [INFO] digest: "sha256:3f1efdbf2e013606fd5efe268d7e60e94b73dc3fe4a1ce311459c4a943445586",
+2025-07-18T23:36:35.188Z [INFO] },
+2025-07-18T23:36:35.189Z [INFO] {
+2025-07-18T23:36:35.190Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.190Z [INFO] size: 250,
+2025-07-18T23:36:35.191Z [INFO] digest: "sha256:5c770f6d7fef83a2ca11004a7e1c6a07908a90f697f829c1f107d4faf0bcecbb",
+2025-07-18T23:36:35.192Z [INFO] },
+2025-07-18T23:36:35.192Z [INFO] {
+2025-07-18T23:36:35.193Z [INFO] mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+2025-07-18T23:36:35.194Z [INFO] size: 142,
+2025-07-18T23:36:35.194Z [INFO] digest: "sha256:822455a3fa5e06a841ae8105a60fa92452680004acfc08d3a6af14c930d0ec00",

@@ -19,6 +19,7 @@ A FastAPI-based backend for face swapping using InsightFace, designed for deploy
 ### Face Swapping
 - `POST /swap` - Returns base64-encoded result image
 - `POST /swap-image` - Returns direct PNG image
+- `POST /runsync` - RunPod serverless endpoint (returns base64-encoded result)
 
 ## Request Format
 
@@ -50,6 +51,40 @@ A FastAPI-based backend for face swapping using InsightFace, designed for deploy
 
 ### `/swap-image` endpoint:
 Returns the PNG image directly with `Content-Type: image/png`
+
+### `/runsync` endpoint (RunPod Serverless):
+**Request format:**
+```json
+{
+  "input": {
+    "source_url": "https://example.com/source-image.jpg",
+    "target_url": "https://example.com/target-image.jpg",
+    "source_index": 1,
+    "target_index": 1
+  }
+}
+```
+
+**Response format:**
+```json
+{
+  "output": {
+    "success": true,
+    "image_base64": "iVBORw0KGgoAAAANSUhEUgAA...",
+    "message": "Face swap completed successfully"
+  }
+}
+```
+
+**Error response:**
+```json
+{
+  "output": {
+    "success": false,
+    "message": "Error description here"
+  }
+}
+```
 
 ## Quick Start
 
@@ -95,14 +130,16 @@ docker-compose up --build
 
 ## RunPod Deployment
 
-### Method 1: Using Docker Image
+### Standard RunPod Deployment
+
+#### Method 1: Using Docker Image
 
 1. Build and push your Docker image to a registry (Docker Hub, etc.)
 2. Create a new RunPod deployment using your image
 3. Set the exposed port to 8000
 4. Configure environment variables if needed
 
-### Method 2: Using RunPod Template
+#### Method 2: Using RunPod Template
 
 Create a RunPod template with:
 - **Base Image**: `nvidia/cuda:11.8-runtime-ubuntu22.04`
@@ -114,6 +151,89 @@ cd <repo-name>
 pip install -r requirements-api.txt
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
+
+### RunPod Serverless Deployment
+
+For serverless deployment, use the `/runsync` endpoint which follows RunPod's serverless contract:
+
+#### 1. Create Serverless Endpoint
+1. Go to RunPod Serverless dashboard
+2. Create a new endpoint
+3. Use your Docker image or build from source
+4. Set the container port to 8000
+5. Configure GPU and memory requirements
+
+#### 2. Endpoint Configuration
+- **Container Image**: Your face-swap API Docker image
+- **Container Port**: 8000
+- **GPU**: Recommended (RTX 3090, RTX 4090, or A100)
+- **Memory**: Minimum 8GB RAM
+- **Storage**: 10GB+ for models
+
+#### 3. Usage from Your Webapp
+```javascript
+// Example JavaScript code for calling the serverless endpoint
+const response = await fetch('https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    input: {
+      source_url: 'https://example.com/source-face.jpg',
+      target_url: 'https://example.com/target-image.jpg',
+      source_index: 1,
+      target_index: 1
+    }
+  })
+});
+
+const result = await response.json();
+if (result.output.success) {
+  // Use result.output.image_base64 for the swapped image
+  const imageData = `data:image/png;base64,${result.output.image_base64}`;
+  // Display or process the image
+} else {
+  console.error('Face swap failed:', result.output.message);
+}
+```
+
+#### 4. Python Example
+```python
+import requests
+
+# Call RunPod serverless endpoint
+response = requests.post(
+    'https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync',
+    headers={
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer YOUR_API_KEY'
+    },
+    json={
+        'input': {
+            'source_url': 'https://example.com/source-face.jpg',
+            'target_url': 'https://example.com/target-image.jpg',
+            'source_index': 1,
+            'target_index': 1
+        }
+    }
+)
+
+result = response.json()
+if result['output']['success']:
+    image_base64 = result['output']['image_base64']
+    # Process the base64 image data
+else:
+    print(f"Error: {result['output']['message']}")
+```
+
+#### 5. Serverless Benefits
+- **Auto-scaling**: Automatically scales based on demand
+- **Cost-effective**: Pay only for actual usage
+- **GPU acceleration**: Access to high-end GPUs
+- **Global deployment**: Low latency worldwide
+- **No server management**: Fully managed infrastructure
 
 ## Testing
 
