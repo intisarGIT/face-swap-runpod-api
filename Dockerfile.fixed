@@ -39,7 +39,7 @@ RUN pip3 install --no-cache-dir --timeout 1000 --retries 5 -r requirements-api.t
 COPY main_fixed.py .
 COPY main.py .
 
-# Copy the ONNX model file (if it exists locally)
+# Copy the ONNX model file if it exists (optional)
 COPY inswapper_128.fp16.onnx* ./
 
 # Create directories for models (InsightFace will download to ~/.insightface)
@@ -52,5 +52,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# Run the application
+# Run the application with the fixed version
 CMD ["uvicorn", "main_fixed:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
