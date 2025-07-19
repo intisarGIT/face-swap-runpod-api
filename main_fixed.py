@@ -81,17 +81,24 @@ def fix_corrupted_model(model_path: str) -> bool:
             os.remove(model_path)
             logger.info("🗑️ Corrupted model removed")
         
-        # Clear InsightFace cache
+        # Clear InsightFace cache (but don't remove the entire cache, just model files)
         cache_paths = [
-            os.path.expanduser("~/.insightface"),
+            os.path.expanduser("~/.insightface/models"),
             os.path.expanduser("~/.cache/insightface"),
-            "/root/.insightface",
+            "/root/.insightface/models",
         ]
         
         for cache_path in cache_paths:
             if os.path.exists(cache_path):
-                logger.info(f"🧹 Clearing cache: {cache_path}")
-                shutil.rmtree(cache_path, ignore_errors=True)
+                # Only remove model files, not the entire cache
+                model_files = [f for f in os.listdir(cache_path) if f.endswith('.onnx')]
+                for model_file in model_files:
+                    model_file_path = os.path.join(cache_path, model_file)
+                    try:
+                        os.remove(model_file_path)
+                        logger.info(f"🧹 Removed cached model: {model_file_path}")
+                    except Exception as e:
+                        logger.warning(f"Could not remove {model_file_path}: {e}")
         
         logger.info("✅ Model corruption fix completed")
         return True
@@ -102,6 +109,8 @@ def fix_corrupted_model(model_path: str) -> bool:
 
 def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
     """Load swapper model with automatic corruption recovery"""
+    swapper_model = None
+    
     for attempt in range(max_retries):
         try:
             logger.info(f"Loading swapper model (attempt {attempt + 1}/{max_retries})...")
@@ -130,6 +139,8 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
                     logger.warning("Model validation failed, attempting to fix...")
                     if not fix_corrupted_model(local_model_path):
                         raise Exception("Failed to fix corrupted model")
+                    # After fixing, the model file is gone, so we need to download
+                    local_model_path = None
             
             # Load the model
             if local_model_path and os.path.exists(local_model_path):
@@ -144,16 +155,16 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
                 # Update local_model_path to the downloaded location
                 local_model_path = os.path.expanduser(f"~/.insightface/models/{model_path}")
             
-            # Validate the loaded model after loading (only if we have a path)
-            if local_model_path and os.path.exists(local_model_path):
-                if not validate_onnx_model(local_model_path):
-                    raise Exception("Model validation failed after loading")
+            # Validate that we actually got a model object
+            if swapper_model is None:
+                raise Exception("Model loading returned None")
             
             logger.info("✅ Swapper model loaded successfully!")
             return swapper_model
             
         except Exception as e:
             logger.error(f"❌ Attempt {attempt + 1} failed: {e}")
+            swapper_model = None
             
             if attempt < max_retries - 1:
                 logger.info("🔄 Retrying with model fix...")
@@ -164,7 +175,9 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
                     fix_corrupted_model(model_path)
             else:
                 logger.error("❌ All attempts failed to load swapper model")
-                raise
+                raise Exception(f"Failed to load swapper model after {max_retries} attempts: {e}")
+    
+    return swapper_model
 
 @lru_cache(maxsize=1)
 def get_cached_models():

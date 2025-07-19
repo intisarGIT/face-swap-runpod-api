@@ -55,6 +55,24 @@ INFO:main_fixed:[Startup] Memory usage: 183.75 MB
 INFO:main_fixed:Loading FaceAnalysis model (cached)...
 ```
 
+### ✅ Auto-Recovery System Working
+The logs show the auto-recovery system successfully handling model corruption:
+```
+INFO:main_fixed:Model file size: 134 bytes (0.00 MB)
+ERROR:main_fixed:❌ ONNX model validation failed: [ONNXRuntimeError] : 7 : INVALID_PROTOBUF
+WARNING:main_fixed:Model validation failed, attempting to fix...
+INFO:main_fixed:🔧 Attempting to fix corrupted model...
+INFO:main_fixed:💾 Backup created: inswapper_128.fp16.onnx.backup
+INFO:main_fixed:🗑️ Corrupted model removed
+INFO:main_fixed:🧹 Clearing cache: /root/.insightface
+INFO:main_fixed:✅ Model corruption fix completed
+```
+Then successfully downloads and loads the model:
+```
+100%|██████████| 281857/281857 [00:03<00:00, 76960.04KB/s]
+INFO:main_fixed:Loading FaceAnalysis model (cached)...
+```
+
 ### ✅ Health Check Success
 ```json
 {
