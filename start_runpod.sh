@@ -18,4 +18,4 @@ pip3 install -r requirements-api.txt
 echo "Setup complete! Starting Face Swap API..."
 
 # Start the FastAPI application
-uvicorn main:app --host 0.0.0.0 --port 8000 --workers 1
+uvicorn main_fixed:app --host 0.0.0.0 --port 8000 --workers 1

@@ -31,42 +31,9 @@ gpu_memory: 4096  # Minimum 4GB GPU memory
 **Solution**: Implement model caching in your main.py:
 
 ```python
-import os
-import logging
-from functools import lru_cache
-
-# Add this to your main.py
-@lru_cache(maxsize=1)
-def get_cached_models():
-    """Cache models to avoid reloading on each request"""
-    try:
-        logging.info("Loading models (cached)...")
-        face_analysis_app = FaceAnalysis(name='buffalo_l')
-        face_analysis_app.prepare(ctx_id=0, det_size=(640, 640))
-        
-        swapper_model = insightface.model_zoo.get_model(
-            'inswapper_128.onnx', 
-            download=False,  # Don't download if already exists
-            download_zip=False
-        )
-        
-        logging.info("Models loaded successfully!")
-        return face_analysis_app, swapper_model
-    except Exception as e:
-        logging.error(f"Model loading failed: {e}")
-        raise
-
-# Update your prepare_app function
-def prepare_app():
-    """Initialize the face analysis app and swapper model."""
-    global face_analysis_app, swapper_model
-    
-    try:
-        face_analysis_app, swapper_model = get_cached_models()
-        return face_analysis_app, swapper_model
-    except Exception as e:
-        logging.error(f"Failed to prepare app: {e}")
-        raise
+# The new `main_fixed.py` script handles all of this automatically.
+# It includes model caching, auto-recovery, and FP16 support.
+# No manual changes to your script are needed.
 ```
 
 ### 3. Image Size Validation
@@ -123,48 +90,54 @@ startup_timeout: 300  # 5 minutes for model loading
 **Updated Dockerfile**:
 
 ```dockerfile
-FROM nvidia/cuda:11.8-runtime-ubuntu22.04
+# Use Ubuntu base image
+FROM ubuntu:20.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
+    python3-dev \
+    build-essential \
+    cmake \
+    libopencv-dev \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
     libxrender-dev \
     libgomp1 \
+    libgl1-mesa-glx \
     wget \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Create working directory
 WORKDIR /app
 
-# Copy requirements first for better caching
+# Copy requirements first for better Docker layer caching
 COPY requirements-api.txt .
-RUN pip install --no-cache-dir -r requirements-api.txt
 
-# Pre-download models to avoid download during runtime
-RUN python3 -c "
-import insightface
-from insightface.app import FaceAnalysis
-app = FaceAnalysis(name='buffalo_l')
-app.prepare(ctx_id=0, det_size=(640, 640))
-swapper = insightface.model_zoo.get_model('inswapper_128.onnx', download=True, download_zip=True)
-print('Models pre-loaded successfully')
-"
+# Install Python dependencies
+RUN pip3 install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip3 install --no-cache-dir --timeout 1000 --retries 5 -r requirements-api.txt
 
-# Copy application code
-COPY . .
+# Copy the application code
+COPY main_fixed.py .
 
-# Expose port
+# Expose the port
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+# Health check (the new healthcheck is more robust)
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# Start the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Run the application with the new fixed script
+CMD ["uvicorn", "main_fixed:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
 ```
 
 ## Debugging Steps

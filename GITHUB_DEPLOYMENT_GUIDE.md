@@ -7,16 +7,16 @@ You can deploy directly from GitHub to RunPod without building Docker locally. H
 ## Files Updated for Deployment
 
 ### ✅ Optimized Files Ready:
-- **`main.py`** - Updated with memory management and model caching
-- **`requirements-api.txt`** - Added psutil for memory monitoring
-- **`Dockerfile`** - Your existing Dockerfile will work (can be improved later)
+- **`main_fixed.py`** - A new, robust version with auto-recovery, FP16 support, and model caching.
+- **`Dockerfile`** - Updated to use `main_fixed.py` and best practices for model handling.
+- **`start_runpod.sh`** - Updated to launch the new `main_fixed.py` script.
 
 ## RunPod Serverless Deployment Steps
 
 ### 1. Push to GitHub
 ```bash
 git add .
-git commit -m "Fix RunPod exit code 3 - optimized memory management"
+git commit -m "feat: implement auto-recovering faceswap API"
 git push origin main
 ```
 
@@ -71,10 +71,10 @@ const RUNPOD_ENDPOINT = "https://api.runpod.ai/v2/abc123def456/runsync"
 ## Key Fixes Applied
 
 ### ✅ Memory Management
-- Model caching to prevent reloading
-- Image size validation and resizing
-- Memory monitoring and cleanup
-- Garbage collection after processing
+- **Automatic Model Recovery**: Detects and fixes corrupted ONNX models.
+- **FP16 Model Support**: Prioritizes the faster, smaller `inswapper_128.fp16.onnx` model.
+- **Dynamic Model Loading**: The Docker container downloads the model on first run, keeping the image light.
+- **Enhanced Health Checks**: The `/health` endpoint now reports on model validity and which model is active.
 
 ### ✅ Error Handling
 - Comprehensive error messages
@@ -91,6 +91,8 @@ const RUNPOD_ENDPOINT = "https://api.runpod.ai/v2/abc123def456/runsync"
 ### 1. Test Health Endpoint
 ```bash
 curl https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/health
+# You can also use the /fix-model endpoint to manually trigger a fix
+curl -X POST https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/fix-model
 ```
 
 ### 2. Test Face Swap
