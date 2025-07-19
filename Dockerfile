@@ -38,8 +38,9 @@ RUN pip3 install --no-cache-dir --timeout 1000 --retries 5 -r requirements-api.t
 # Copy the application code
 COPY main_fixed.py .
 COPY main.py .
-# The ONNX model will be downloaded on first run by the main_fixed.py script
-# This keeps the docker image smaller and ensures the latest model is used.
+
+# Copy the ONNX model file
+COPY inswapper_128.fp16.onnx .
 
 # Create directories for models (InsightFace will download to ~/.insightface)
 RUN mkdir -p /root/.insightface/models

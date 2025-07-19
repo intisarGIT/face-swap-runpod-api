@@ -55,8 +55,13 @@ try:\n\
     logger.info("FaceAnalysis model loaded successfully")\n\
     \n\
     logger.info("Pre-loading face swapper model...")\n\
-    swapper = insightface.model_zoo.get_model("inswapper_128.onnx", download=True, download_zip=True)\n\
-    logger.info("Face swapper model loaded successfully")\n\
+    # Try FP16 first, then fallback to FP32\n\
+    try:\n\
+        swapper = insightface.model_zoo.get_model("inswapper_128.fp16.onnx", download=False, download_zip=False)\n\
+        logger.info("Face swapper FP16 model loaded successfully")\n\
+    except:\n\
+        swapper = insightface.model_zoo.get_model("inswapper_128.onnx", download=True, download_zip=True)\n\
+        logger.info("Face swapper FP32 model loaded successfully")\n\
     \n\
     logger.info("All models pre-loaded successfully!")\n\
 except Exception as e:\n\
@@ -65,7 +70,7 @@ except Exception as e:\n\
 ' > /tmp/preload_models.py && python3 /tmp/preload_models.py && rm /tmp/preload_models.py
 
 # Copy the inswapper model if it exists locally
-COPY inswapper_128.onnx* ./
+COPY inswapper_128.fp16.onnx ./
 
 # Copy application code
 COPY main_optimized.py main.py

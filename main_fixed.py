@@ -106,26 +106,33 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
         try:
             logger.info(f"Loading swapper model (attempt {attempt + 1}/{max_retries})...")
             
-            # Check if model exists in current directory first
-            local_model_path = model_path
-            if not os.path.exists(local_model_path):
-                # Check in InsightFace cache directory
-                cache_model_path = os.path.expanduser(f"~/.insightface/models/{model_path}")
-                if os.path.exists(cache_model_path):
-                    local_model_path = cache_model_path
-                else:
-                    logger.info(f"Model not found locally at {model_path} or {cache_model_path}")
+            # Check multiple possible locations for the model
+            possible_paths = [
+                model_path,  # Current directory
+                os.path.abspath(model_path),  # Absolute path in current directory
+                os.path.expanduser(f"~/.insightface/models/{model_path}"),  # InsightFace cache
+                os.path.expanduser(f"/root/.insightface/models/{model_path}"),  # Docker root cache
+            ]
+            
+            local_model_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    local_model_path = path
+                    logger.info(f"Found model at: {local_model_path}")
+                    break
+            
+            if local_model_path is None:
+                logger.info(f"Model not found locally at any of these paths: {possible_paths}")
             
             # First, validate the model if it exists
-            if os.path.exists(local_model_path):
-                logger.info(f"Found model at: {local_model_path}")
+            if local_model_path and os.path.exists(local_model_path):
                 if not validate_onnx_model(local_model_path):
                     logger.warning("Model validation failed, attempting to fix...")
                     if not fix_corrupted_model(local_model_path):
                         raise Exception("Failed to fix corrupted model")
             
             # Load the model
-            if os.path.exists(local_model_path):
+            if local_model_path and os.path.exists(local_model_path):
                 # For local files, use the full path directly
                 logger.info(f"Loading model from local path: {local_model_path}")
                 swapper_model = insightface.model_zoo.get_model(local_model_path, download=False, download_zip=False)
@@ -137,9 +144,10 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
                 # Update local_model_path to the downloaded location
                 local_model_path = os.path.expanduser(f"~/.insightface/models/{model_path}")
             
-            # Validate the loaded model
-            if not validate_onnx_model(local_model_path):
-                raise Exception("Model validation failed after loading")
+            # Validate the loaded model after loading (only if we have a path)
+            if local_model_path and os.path.exists(local_model_path):
+                if not validate_onnx_model(local_model_path):
+                    raise Exception("Model validation failed after loading")
             
             logger.info("✅ Swapper model loaded successfully!")
             return swapper_model
@@ -149,7 +157,11 @@ def load_swapper_model_with_recovery(model_path: str, max_retries: int = 3):
             
             if attempt < max_retries - 1:
                 logger.info("🔄 Retrying with model fix...")
-                fix_corrupted_model(local_model_path if 'local_model_path' in locals() else model_path)
+                if 'local_model_path' in locals() and local_model_path:
+                    fix_corrupted_model(local_model_path)
+                else:
+                    # Try to fix the first possible path
+                    fix_corrupted_model(model_path)
             else:
                 logger.error("❌ All attempts failed to load swapper model")
                 raise
@@ -347,17 +359,29 @@ async def health_check():
     process = psutil.Process(os.getpid())
     memory_mb = process.memory_info().rss / 1024 / 1024
     
-    # Model validation - check both variants
+    # Model validation - check both variants in multiple locations
     model_valid = False
     active_model = None
     model_paths = ['inswapper_128.fp16.onnx', 'inswapper_128.onnx']
     
     for model_path in model_paths:
-        if os.path.exists(model_path):
-            if validate_onnx_model(model_path):
-                model_valid = True
-                active_model = model_path
-                break
+        # Check multiple possible locations
+        possible_paths = [
+            model_path,  # Current directory
+            os.path.abspath(model_path),  # Absolute path in current directory
+            os.path.expanduser(f"~/.insightface/models/{model_path}"),  # InsightFace cache
+            os.path.expanduser(f"/root/.insightface/models/{model_path}"),  # Docker root cache
+        ]
+        
+        for path in possible_paths:
+            if os.path.exists(path):
+                if validate_onnx_model(path):
+                    model_valid = True
+                    active_model = path
+                    break
+        
+        if model_valid:
+            break
     
     return {
         "status": "healthy" if is_healthy else "unhealthy",
